@@ -24,11 +24,13 @@ app.post('/slack', bodyParser.urlencoded({extended: true}), function(req, res) {
 		if (args.length > 0) {
 			if (args[0] === "male" || args[0] === "female") {
 				qs.gender = args.shift()
+				var omitGender = true
 			}
 		}
 		
 		if (args.length > 0) {
 			qs.country = args.join(" ")
+			var omitCountry = true
 		}
 
 	}
@@ -49,18 +51,41 @@ app.post('/slack', bodyParser.urlencoded({extended: true}), function(req, res) {
 			} else {
 				if (Array.isArray(body)) {
 					res.send(body.map(function(person) {
-						return formatPerson(person)
+						return formatPerson(person, omitGender, omitCountry)
 					}).join("\n"))
 				} else {
-					res.send(formatPerson(body))
+					res.send(formatPerson(body, omitGender, omitCountry))
 				}
 			}
 		}
 	})
 })
 
-function formatPerson(person) {
-	return person.name + " " + person.surname
+function formatPerson(person, omitGender, omitCountry) {
+	
+	var additionalInfo = ""
+	if (!omitGender || !omitCountry) {
+		additionalInfo += " ("
+		if (!omitGender) {
+			if (person.gender === "male") {
+				var genderSymbol = "\u2642"
+			} else {
+				var genderSymbol = "\u2640"
+			}
+			additionalInfo += genderSymbol
+		}
+		if (!omitGender && !omitCountry) {
+			additionalInfo += " "
+		}
+		if (!omitCountry) {
+			var country = person.country.toLowerCase().replace( /\b\w/g, function (m) {
+                return m.toUpperCase()
+            })
+			additionalInfo += country
+		}
+		additionalInfo += ")"
+	}
+	return person.name + " *" + person.surname + "*" + additionalInfo
 }
 
 app.listen(port)
