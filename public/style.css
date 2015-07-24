@@ -1,0 +1,20 @@
+body {
+	margin: 0;
+}
+
+.markdown-body {
+	min-width: 200px;
+	max-width: 790px;
+	margin: 0 auto;
+	padding: 30px;
+}
+
+.markdown-body.info {
+	width: 100%;
+	max-width: unset;
+	/*padding: 2em;*/
+	background-color: #C0E6FF;
+	text-align: center;
+	box-sizing: border-box;
+	/*margin: 2em;*/
+}

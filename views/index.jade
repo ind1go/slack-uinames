@@ -1,0 +1,12 @@
+html
+	head
+		title!= title
+		link(href='/style.css', rel='stylesheet')
+		link(href='/github.css', rel='stylesheet')
+	body
+		div(class='markdown-body info') This is the installed version of 
+			strong slack-uinames
+			| . For more information, see the 
+			a(href=repository) Github repository
+			| .
+		div(class='markdown-body')!= markdown

@@ -1,12 +1,33 @@
+var pjson = require('./package.json');
+
 var http = require('http')
 var request = require('request')
 var bodyParser = require('body-parser')
 
-var host = process.env.VCAP_APP_HOST || 'localhost'
-var port = process.env.VCAP_APP_PORT || 1337
+var fs = require ('fs')
+var marked = require('marked');
 
 var express = require('express')
 var app = express()
+
+var host = process.env.VCAP_APP_HOST || 'localhost'
+var port = process.env.VCAP_APP_PORT || 1337
+
+app.use(express.static('public'));
+
+app.set('views', './views')
+app.set('view engine', 'jade');
+
+app.get('/', function(req, res) {
+	// res.setHeader('Content-Type', 'text/html')
+	var path = __dirname + '/README.md';
+  	var file = fs.readFile(path, 'utf8', function(err, data) {
+		if(err) {
+			console.log(err);
+		}
+		res.render('index', { title: 'slack-uinames', repository: pjson.repository.url, markdown: marked(data.toString())});
+	});
+})
 
 app.post('/slack', bodyParser.urlencoded({extended: true}), function(req, res) {
 	res.setHeader('Content-Type', 'text/plain')
