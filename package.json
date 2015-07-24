@@ -1,0 +1,21 @@
+{
+  "name": "slack-uinames",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Ben Cox",
+  "license": "MIT",
+  "repository" : {
+    "type" : "git"
+  , "url" : "https://github.com/ind1go/slack-uinames"
+  },
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "express": "^4.13.1",
+    "properties-parser": "^0.2.3",
+    "request": "^2.60.0"
+  }
+}
