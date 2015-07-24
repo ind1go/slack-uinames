@@ -1,7 +1,6 @@
 var http = require('http')
 var request = require('request')
 var bodyParser = require('body-parser')
-var propertiesParser = require('properties-parser')
 
 var host = process.env.VCAP_APP_HOST || 'localhost'
 var port = process.env.VCAP_APP_PORT || 1337
@@ -9,10 +8,9 @@ var port = process.env.VCAP_APP_PORT || 1337
 var express = require('express')
 var app = express()
 
-app.post('/slack', bodyParser.text(), function(req, res) {
+app.post('/slack', bodyParser.urlencoded({extended: true}), function(req, res) {
 	res.setHeader('Content-Type', 'text/plain')
-
-	var text = propertiesParser.parse(req.body).text
+	var text = req.body.text
 	var qs = {}
 	if (text) {
 		var args = text.split(/\s+/)
