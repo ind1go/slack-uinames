@@ -17,7 +17,7 @@ app.post('/slack', bodyParser.urlencoded({extended: true}), function(req, res) {
 
 		if (args.length > 0) {
 			if (!isNaN(args[0])) {
-				qs.amount = +args.shift()
+				qs.amount = Math.min(100, +args.shift())
 			}
 		}
 		
